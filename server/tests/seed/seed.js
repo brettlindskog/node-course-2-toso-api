@@ -18,17 +18,23 @@ const users = [{
 }, {
     _id: userTwoID,
     email: 'example@test.com',
-    password: 'seconduserpassword'
+    password: 'seconduserpassword',
+    tokens: [{
+        access: 'auth',
+        token: jwt.sign({ _id: userTwoID, access: 'auth' }, 'secretsalt').toString()
+    }]
 }];
 
 const todos = [{
     _id: new ObjectID(),
-    text: 'first test todo'
+    text: 'first test todo',
+    _creator: userOneID
 }, {
     _id: new ObjectID(),
     text: 'second test todo',
     completed: true,
-    completedAt: 777
+    completedAt: 777,
+    _creator: userTwoID
 }];
 const populateTodos = (done) => {
     Todo.remove({}).then(() => {
